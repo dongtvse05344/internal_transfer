@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "github.com/internal_transfer/pb";
+
+message CreateAccountRequest {
+  int64 id = 1;
+  double balance = 2;
+}
+
+message CreateAccountResponse {
+  int64 code = 1;
+  string message = 2;
+}
+
+message GetAccountRequest {
+  int64 id = 1; // from params
+}
+
+message GetAccountResponse {
+  int64 code = 1;
+  string message = 2;
+  GetAccountResponseData data = 3;
+}
+
+message GetAccountResponseData {
+  Account account = 1;
+}
+
+message Account {
+  int64 id = 1;
+  double balance = 2;
+}
+
+
+
+
+

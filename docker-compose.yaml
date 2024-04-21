@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0 # Official MySQL image, version 8.0 (you can choose a different version)
+    container_name: transfer_db # Name of the container
+    environment:
+      MYSQL_ROOT_PASSWORD: my_password  # Set your desired root password (replace with a strong password)
+    ports:
+      - "3306:3306"  # Map the container port 3306 to host port 3306 (common MySQL port)
+    volumes:
+      - var/lib/mysql  # Persistent storage for your database data

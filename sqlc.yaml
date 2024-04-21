@@ -1,0 +1,11 @@
+version: "2"
+sql:
+  - engine: "mysql"
+    queries: "./dal/db/query/"
+    schema: "./dal/db/migration/"
+    gen:
+      go:
+        package: "db"
+        out: "dal/db/sqlc"
+        emit_empty_slices: true
+        emit_interface: true

@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package pb;
+
+import  "account.proto";
+import "transfer.proto";
+import "google/api/annotations.proto";
+
+option go_package = "github.com/internal_transfer/pb";
+
+message PingRequest {
+  string message = 1;
+}
+
+message PingResponse {
+  string message = 1;
+}
+
+service InternalTransfer{
+
+  rpc Ping (PingRequest) returns (PingResponse) {
+    option (google.api.http) = {
+      get: "/v1/ping"
+      };
+    }
+  rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse) {
+    option (google.api.http) = {
+      post: "/v1/account"
+      body: "*"
+    };
+  }
+
+  rpc GetAccount(GetAccountRequest) returns (GetAccountResponse) {
+    option (google.api.http) = {
+      get: "/v1/account/{id}"
+    };
+  }
+
+  rpc Transfer(TransferRequest) returns (TransferResponse) {
+    option (google.api.http) = {
+      post: "/v1/transfer"
+      body: "*"
+    };
+  }
+}
