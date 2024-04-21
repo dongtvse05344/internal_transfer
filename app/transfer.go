@@ -4,6 +4,8 @@ import (
 	"context"
 	"database/sql"
 
+	"github.com/golang/protobuf/proto"
+
 	db "github.com/internal_transfer/dal/db/sqlc"
 	"github.com/internal_transfer/pb"
 	"github.com/internal_transfer/utils"
@@ -15,8 +17,8 @@ func (a *App) Transfer(ctx context.Context, req *pb.TransferRequest) (*pb.Transf
 		err := utils.NewInvalidParamsError("invalid params")
 		status = utils.GetStatus(err)
 		return &pb.TransferResponse{
-			Code:    status.Code,
-			Message: status.Message,
+			Code:    proto.Int64(status.Code),
+			Message: proto.String(status.Message),
 		}, nil
 	}
 	_, err := a.Store.TransferTx(ctx, db.TransferTxParams{
@@ -33,7 +35,7 @@ func (a *App) Transfer(ctx context.Context, req *pb.TransferRequest) (*pb.Transf
 	}
 
 	return &pb.TransferResponse{
-		Code:    status.Code,
-		Message: status.Message,
+		Code:    proto.Int64(status.Code),
+		Message: proto.String(status.Message),
 	}, nil
 }

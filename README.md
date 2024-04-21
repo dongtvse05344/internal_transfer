@@ -1,7 +1,25 @@
 # internal_transfer
 Exercise: Internal transfers System with an HTTP Interface
 ## Quick Start
-
+0. Environment Requirement
+  - Install [Docker](https://docs.docker.com/get-docker/)
+  - Install [Docker Compose](https://docs.docker.com/compose/install/)
+  - Install [Go](https://golang.org/doc/install)
+1. Start DB container
+  ```
+  make start_db
+```
+ - SQL port 127.0.0.1:3306
+ - client: root
+ - password: my_password
+2. Initialize DB
+```
+  make migrate_up
+```
+3. Start API server
+```
+  make start_api
+```
 ## Requirement
 - Internal transfers application that facilitates financial
   transactions between accounts.
@@ -149,3 +167,44 @@ service InternalTransfer{
 }
 
 ```
+
+## Testing
+### CRUD
+1. Create account
+```
+curl --location 'http://localhost:8080/v1/account' \
+--header 'Content-Type: application/json' \
+--data '{
+    "id": 1,
+    "balance": 100
+}'
+```
+
+2. Get account
+```
+curl --location 'http://localhost:8080/v1/account/1'
+```
+3. Make a transfer
+```
+curl --location 'http://localhost:8080/v1/transfer' \
+--header 'Content-Type: application/json' \
+--data '{
+    "from_account_id": 2,
+    "to_account_id": 1,
+    "amount": 100
+}'
+```
+
+### DB access
+1. access mysql container
+``` 
+docker exec -it transfer_db mysql -uroot -pmy_password
+```
+
+### Unit test
+```
+make test
+```
+
+## Future Work
+1. Complete the CURD operations related to accounts, entries, transfers

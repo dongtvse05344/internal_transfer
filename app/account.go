@@ -17,8 +17,8 @@ func (a *App) CreateAccount(ctx context.Context, req *pb.CreateAccountRequest) (
 		err := utils.NewInvalidParamsError("invalid params")
 		status = utils.GetStatus(err)
 		return &pb.CreateAccountResponse{
-			Code:    status.Code,
-			Message: status.Message,
+			Code:    proto.Int64(status.Code),
+			Message: proto.String(status.Message),
 		}, nil
 	}
 
@@ -32,8 +32,8 @@ func (a *App) CreateAccount(ctx context.Context, req *pb.CreateAccountRequest) (
 		status = utils.GetStatus(err)
 	}
 	return &pb.CreateAccountResponse{
-		Code:    status.Code,
-		Message: status.Message,
+		Code:    proto.Int64(status.Code),
+		Message: proto.String(status.Message),
 	}, nil
 }
 
@@ -43,8 +43,8 @@ func (a *App) GetAccount(ctx context.Context, req *pb.GetAccountRequest) (*pb.Ge
 		err := utils.NewInvalidParamsError("invalid params")
 		status = utils.GetStatus(err)
 		return &pb.GetAccountResponse{
-			Code:    status.Code,
-			Message: status.Message,
+			Code:    proto.Int64(status.Code),
+			Message: proto.String(status.Message),
 		}, nil
 	}
 
@@ -55,13 +55,13 @@ func (a *App) GetAccount(ctx context.Context, req *pb.GetAccountRequest) (*pb.Ge
 		}
 		status = utils.GetStatus(err)
 		return &pb.GetAccountResponse{
-			Code:    status.Code,
-			Message: status.Message,
+			Code:    proto.Int64(status.Code),
+			Message: proto.String(status.Message),
 		}, nil
 	}
 	return &pb.GetAccountResponse{
-		Code:    status.Code,
-		Message: status.Message,
+		Code:    proto.Int64(status.Code),
+		Message: proto.String(status.Message),
 		Data: &pb.GetAccountResponseData{
 			Account: &pb.Account{
 				Id:      account.ID,

@@ -9,7 +9,9 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestTranferTx(t *testing.T) {
+// concurrency transfer between two accounts
+func TestTransferTx2Account(t *testing.T) {
+	time.Sleep(1 * time.Second)
 	account1 := createTestAccount(t)
 	time.Sleep(1 * time.Second)
 	account2 := createTestAccount(t)
@@ -39,9 +41,9 @@ func TestTranferTx(t *testing.T) {
 		wg.Add(1)
 		go func(arg TransferTxParams) {
 			if arg.FromAccountID == account1.ID {
-				t.Log("transfer from account 1 to account 2")
+				t.Log("transfer from account 1 to account 2, amount:", arg.Amount)
 			} else {
-				t.Log("transfer from account 2 to account 1")
+				t.Log("transfer from account 2 to account 1, amount:", arg.Amount)
 			}
 			var err error
 			result, err = testStore.TransferTx(context.Background(), arg)
@@ -60,7 +62,9 @@ func TestTranferTx(t *testing.T) {
 	require.Equal(t, balance2, dbAccount2.Balance)
 }
 
-func TestTranferTx2(t *testing.T) {
+// concurrency transfer from 1 account to another account.
+func TestTransferTxFrom1to1(t *testing.T) {
+	time.Sleep(1 * time.Second)
 	account1 := createTestAccount(t)
 	time.Sleep(1 * time.Second)
 	account2 := createTestAccount(t)

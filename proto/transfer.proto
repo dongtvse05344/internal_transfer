@@ -11,6 +11,6 @@ message TransferRequest {
 }
 
 message TransferResponse {
-    int64 code = 1;
-    string message = 2;
+    optional int64 code = 1;
+    optional string message = 2;
 }

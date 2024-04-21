@@ -10,8 +10,8 @@ message CreateAccountRequest {
 }
 
 message CreateAccountResponse {
-  int64 code = 1;
-  string message = 2;
+  optional int64 code = 1;
+  optional string message = 2;
 }
 
 message GetAccountRequest {
@@ -19,8 +19,8 @@ message GetAccountRequest {
 }
 
 message GetAccountResponse {
-  int64 code = 1;
-  string message = 2;
+  optional int64 code = 1;
+  optional string message = 2;
   GetAccountResponseData data = 3;
 }
 
