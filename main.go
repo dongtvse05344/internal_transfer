@@ -15,14 +15,16 @@ import (
 
 	"github.com/internal_transfer/app"
 	"github.com/internal_transfer/pb"
+	"github.com/internal_transfer/utils"
 )
 
 func main() {
-	myApp := &app.App{
-		Server: &http.Server{
-			Addr: ":8080",
-		},
+	config, err := utils.LoadConfig(".")
+	if err != nil {
+		log.Fatal("can not load configuration: ", err)
+
 	}
+	myApp := new(app.App)
 
 	if err := Init(myApp,
 		app.WithStore,
@@ -53,7 +55,7 @@ func main() {
 	mux.Handle("/", grpcMux)
 
 	go func() {
-		listener, err := net.Listen("tcp", myApp.Server.Addr)
+		listener, err := net.Listen("tcp", config.HTTPServerAddress)
 		if err != nil {
 			log.Fatal("can not create listener", err)
 		}
@@ -75,7 +77,7 @@ func main() {
 		cancel()
 	}()
 
-	if err := myApp.Shutdown(ctx); err != nil {
+	if err := myApp.Close(ctx); err != nil {
 		log.Fatalf("Server Shutdown Failed:%+v", err)
 	}
 	log.Print("Server Exited Properly")

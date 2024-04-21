@@ -21,6 +21,7 @@ const (
 
 func TestMain(m *testing.M) {
 	conn, err := sql.Open(dbDriver, dbSource)
+	defer conn.Close()
 	if err != nil {
 		log.Fatal("cannot connect to db:", err)
 	}

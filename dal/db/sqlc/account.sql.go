@@ -46,7 +46,7 @@ func (q *Queries) GetAccount(ctx context.Context, id int64) (GetAccountRow, erro
 }
 
 const getAccountForBalanceUpdate = `-- name: GetAccountForBalanceUpdate :one
-SELECT id, balance FROM accounts
+SELECT id FROM accounts
 WHERE id = ? AND balance >= ? LIMIT 1 FOR UPDATE
 `
 
@@ -55,33 +55,22 @@ type GetAccountForBalanceUpdateParams struct {
 	Balance float64
 }
 
-type GetAccountForBalanceUpdateRow struct {
-	ID      int64
-	Balance float64
-}
-
-func (q *Queries) GetAccountForBalanceUpdate(ctx context.Context, arg GetAccountForBalanceUpdateParams) (GetAccountForBalanceUpdateRow, error) {
+func (q *Queries) GetAccountForBalanceUpdate(ctx context.Context, arg GetAccountForBalanceUpdateParams) (int64, error) {
 	row := q.db.QueryRowContext(ctx, getAccountForBalanceUpdate, arg.ID, arg.Balance)
-	var i GetAccountForBalanceUpdateRow
-	err := row.Scan(&i.ID, &i.Balance)
-	return i, err
+	var id int64
+	err := row.Scan(&id)
+	return id, err
 }
 
 const getAccountForUpdate = `-- name: GetAccountForUpdate :one
-SELECT id, balance FROM accounts
+SELECT id FROM accounts
 WHERE id = ?  LIMIT 1 FOR UPDATE
 `
 
-type GetAccountForUpdateRow struct {
-	ID      int64
-	Balance float64
-}
-
-func (q *Queries) GetAccountForUpdate(ctx context.Context, id int64) (GetAccountForUpdateRow, error) {
+func (q *Queries) GetAccountForUpdate(ctx context.Context, id int64) (int64, error) {
 	row := q.db.QueryRowContext(ctx, getAccountForUpdate, id)
-	var i GetAccountForUpdateRow
-	err := row.Scan(&i.ID, &i.Balance)
-	return i, err
+	err := row.Scan(&id)
+	return id, err
 }
 
 const updateBalance = `-- name: UpdateBalance :execresult

@@ -17,7 +17,7 @@ Consider the currency is the same for all accounts.
 
 ## Design
 ### Overview Design
-![img_1.png](overview deisgn.png)
+![img_1.png](overview_design.png)
 ### SQL create table
 ![img.png](img.png)
 #### SQL create table
@@ -109,7 +109,20 @@ message TransferResponse {
     string message = 2;
 }
 ```
-
+#### Data flow
+![img_1.png](tx_flow.png)
+#### SQL
+```
+1. select id from accounts where id = ? for update;
+2. select id from accounts where id = ? and balance >= ? for update;
+3. select id from accounts where id = ? for update;
+4. insert into transfers (from_account_id, to_account_id, amount) values (?, ?, ?);
+5. update accounts set balance = balance - ? where id = ?;
+6. update accounts set balance = balance + ? where id = ?;
+7. insert into entries (account_id, amount) values (?, ?);
+8. insert into entries (account_id, amount) values (?, ?);
+commit
+```
 ### API
 ```
 
