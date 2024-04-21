@@ -4,6 +4,8 @@ import (
 	"context"
 	"database/sql"
 
+	"github.com/golang/protobuf/proto"
+
 	db "github.com/internal_transfer/dal/db/sqlc"
 	"github.com/internal_transfer/pb"
 	"github.com/internal_transfer/utils"
@@ -63,7 +65,7 @@ func (a *App) GetAccount(ctx context.Context, req *pb.GetAccountRequest) (*pb.Ge
 		Data: &pb.GetAccountResponseData{
 			Account: &pb.Account{
 				Id:      account.ID,
-				Balance: account.Balance,
+				Balance: proto.Float64(account.Balance),
 			},
 		},
 	}, nil
