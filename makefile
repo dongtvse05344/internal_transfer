@@ -1,6 +1,5 @@
-access_db:
-	docker exec -it transfer_db mysql -uroot -pmy_password
-
+#access_db:
+#	docker exec -it transfer_db mysql -uroot -pmy_password
 start_db:
 	docker-compose up -d
 
@@ -19,3 +18,8 @@ proto_gen:
                --go-grpc_out=pb --go-grpc_opt=paths=source_relative \
                --grpc-gateway_out=pb --grpc-gateway_opt paths=source_relative \
                proto/*.proto
+
+quick_start:
+	make start_db
+	make migrate_up
+	go run main.go
