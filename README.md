@@ -23,6 +23,9 @@ If have some connection errors. Please wait and check DB connection.
 ```
   make start_api
 ```
+
+example log success:
+![img.png](assets/img_log.png)
 ## Requirement
 - Internal transfers application that facilitates financial
   transactions between accounts.
