@@ -19,6 +19,7 @@ proto_gen:
                --grpc-gateway_out=pb --grpc-gateway_opt paths=source_relative \
                proto/*.proto
 start:
+	go mod tidy
 	go run .
 
 test:

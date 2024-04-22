@@ -16,6 +16,9 @@ Exercise: Internal transfers System with an HTTP Interface
 ```
   make migrate_up
 ```
+Makre sure log show up is success.
+![img_1.png](assets/img_1.png)
+If have some connection errors. Please wait and check DB connection.
 3. Start API server
 ```
   make start_api
@@ -35,9 +38,9 @@ Consider the currency is the same for all accounts.
 
 ## Design
 ### Overview Design
-![img_1.png](overview_design.png)
+![img_1.png](assets/overview_design.png)
 ### SQL create table
-![img.png](img.png)
+![img.png](assets/img.png)
 #### SQL create table
 ```
 CREATE TABLE `accounts` (
