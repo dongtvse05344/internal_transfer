@@ -29,3 +29,31 @@ type CreateTransferParams struct {
 func (q *Queries) CreateTransfer(ctx context.Context, arg CreateTransferParams) (sql.Result, error) {
 	return q.db.ExecContext(ctx, createTransfer, arg.FromAccountID, arg.ToAccountID, arg.Amount)
 }
+
+const getTransferById = `-- name: GetTransferById :one
+SELECT id,
+       from_account_id,
+       to_account_id,
+       amount
+  FROM transfers
+ WHERE id =  ?
+`
+
+type GetTransferByIdRow struct {
+	ID            int64
+	FromAccountID sql.NullInt64
+	ToAccountID   sql.NullInt64
+	Amount        float64
+}
+
+func (q *Queries) GetTransferById(ctx context.Context, id int64) (GetTransferByIdRow, error) {
+	row := q.db.QueryRowContext(ctx, getTransferById, id)
+	var i GetTransferByIdRow
+	err := row.Scan(
+		&i.ID,
+		&i.FromAccountID,
+		&i.ToAccountID,
+		&i.Amount,
+	)
+	return i, err
+}

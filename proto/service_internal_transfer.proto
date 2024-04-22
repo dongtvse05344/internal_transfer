@@ -42,4 +42,10 @@ service InternalTransfer{
       body: "*"
     };
   }
+
+  rpc GetTransfer(GetTransferRequest) returns (GetTransferResponse) {
+    option (google.api.http) = {
+      get: "/v1/transfer/{id}"
+    };
+  }
 }

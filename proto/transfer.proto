@@ -13,4 +13,24 @@ message TransferRequest {
 message TransferResponse {
     optional int64 code = 1;
     optional string message = 2;
+
+    optional int64 transfer_id = 3;
+}
+
+message GetTransferRequest {
+    int64 id = 1;
+}
+
+message GetTransferResponse {
+    optional int64 code = 1;
+    optional string message = 2;
+
+    optional Transfer transfer = 3;
+}
+
+message Transfer {
+    optional int64 transfer_id = 1;
+    optional int64 from_account_id = 2;
+    optional int64 to_account_id = 3;
+    optional double amount = 4;
 }

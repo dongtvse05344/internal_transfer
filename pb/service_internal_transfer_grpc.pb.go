@@ -23,6 +23,7 @@ const (
 	InternalTransfer_CreateAccount_FullMethodName = "/pb.InternalTransfer/CreateAccount"
 	InternalTransfer_GetAccount_FullMethodName    = "/pb.InternalTransfer/GetAccount"
 	InternalTransfer_Transfer_FullMethodName      = "/pb.InternalTransfer/Transfer"
+	InternalTransfer_GetTransfer_FullMethodName   = "/pb.InternalTransfer/GetTransfer"
 )
 
 // InternalTransferClient is the client API for InternalTransfer service.
@@ -33,6 +34,7 @@ type InternalTransferClient interface {
 	CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*CreateAccountResponse, error)
 	GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*GetAccountResponse, error)
 	Transfer(ctx context.Context, in *TransferRequest, opts ...grpc.CallOption) (*TransferResponse, error)
+	GetTransfer(ctx context.Context, in *GetTransferRequest, opts ...grpc.CallOption) (*GetTransferResponse, error)
 }
 
 type internalTransferClient struct {
@@ -79,6 +81,15 @@ func (c *internalTransferClient) Transfer(ctx context.Context, in *TransferReque
 	return out, nil
 }
 
+func (c *internalTransferClient) GetTransfer(ctx context.Context, in *GetTransferRequest, opts ...grpc.CallOption) (*GetTransferResponse, error) {
+	out := new(GetTransferResponse)
+	err := c.cc.Invoke(ctx, InternalTransfer_GetTransfer_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // InternalTransferServer is the server API for InternalTransfer service.
 // All implementations must embed UnimplementedInternalTransferServer
 // for forward compatibility
@@ -87,6 +98,7 @@ type InternalTransferServer interface {
 	CreateAccount(context.Context, *CreateAccountRequest) (*CreateAccountResponse, error)
 	GetAccount(context.Context, *GetAccountRequest) (*GetAccountResponse, error)
 	Transfer(context.Context, *TransferRequest) (*TransferResponse, error)
+	GetTransfer(context.Context, *GetTransferRequest) (*GetTransferResponse, error)
 	mustEmbedUnimplementedInternalTransferServer()
 }
 
@@ -105,6 +117,9 @@ func (UnimplementedInternalTransferServer) GetAccount(context.Context, *GetAccou
 }
 func (UnimplementedInternalTransferServer) Transfer(context.Context, *TransferRequest) (*TransferResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Transfer not implemented")
+}
+func (UnimplementedInternalTransferServer) GetTransfer(context.Context, *GetTransferRequest) (*GetTransferResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTransfer not implemented")
 }
 func (UnimplementedInternalTransferServer) mustEmbedUnimplementedInternalTransferServer() {}
 
@@ -191,6 +206,24 @@ func _InternalTransfer_Transfer_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _InternalTransfer_GetTransfer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTransferRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(InternalTransferServer).GetTransfer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: InternalTransfer_GetTransfer_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(InternalTransferServer).GetTransfer(ctx, req.(*GetTransferRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // InternalTransfer_ServiceDesc is the grpc.ServiceDesc for InternalTransfer service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -213,6 +246,10 @@ var InternalTransfer_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Transfer",
 			Handler:    _InternalTransfer_Transfer_Handler,
+		},
+		{
+			MethodName: "GetTransfer",
+			Handler:    _InternalTransfer_GetTransfer_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

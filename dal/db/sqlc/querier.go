@@ -16,6 +16,7 @@ type Querier interface {
 	GetAccount(ctx context.Context, id int64) (GetAccountRow, error)
 	GetAccountForBalanceUpdate(ctx context.Context, arg GetAccountForBalanceUpdateParams) (int64, error)
 	GetAccountForUpdate(ctx context.Context, id int64) (int64, error)
+	GetTransferById(ctx context.Context, id int64) (GetTransferByIdRow, error)
 	//
 	UpdateBalance(ctx context.Context, arg UpdateBalanceParams) (sql.Result, error)
 }
